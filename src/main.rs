@@ -8,16 +8,9 @@ type AppError = Box<dyn std::error::Error>;
 
 fn main() -> Result<(), AppError> {
     // Load environment variables from '.env'
-    dotenv::dotenv().ok();
+    dotenv::dotenv()?;
     // Initialize custom logger
     logger::init()?;
-
-    let test_msg = "test message";
-    trace!("{}", test_msg);
-    debug!("{}", test_msg);
-    info!("{}", test_msg);
-    warn!("{}", test_msg);
-    error!("{}", test_msg);
 
     Ok(())
 }

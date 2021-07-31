@@ -13,7 +13,7 @@ pub fn init() -> Result<(), InitError> {
         .unwrap_or(LevelFilter::Info);
 
     let mut dispatch = Dispatch::new()
-        .format(move |out, message, record| {
+        .format(|out, message, record| {
             out.finish(format_args!(
                 "[{}] [{}] [{}] {}",
                 chrono::Local::now().format("%Y-%m-%dT%H:%M:%S"),
@@ -23,12 +23,11 @@ pub fn init() -> Result<(), InitError> {
             ))
         })
         .level(log_level)
-        // Log to `stderr`
         .chain(std::io::stderr());
 
     // Enable logging to file if a log file is provided
     if let Ok(log_file) = env::var("LOG_FILE") {
-        let log_file: File = File::create(log_file)?;
+        let log_file = File::create(log_file)?;
         dispatch = dispatch.chain(log_file);
     }
 
