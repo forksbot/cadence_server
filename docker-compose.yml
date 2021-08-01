@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  # PostgreSQL service (database)
+  postgres:
+    image: "postgres:13"
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+    container_name: "timesync-postgres"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_INITDB_ARGS: ${POSTGRES_INITDB_ARGS}
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - ./pgsql/postgres.conf:/etc/postgresql/postgresql.conf
+      - ./pgsql/load-extensions.sql:/docker-entrypoint-initdb.d/load-extensions.sql

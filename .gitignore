@@ -19,6 +19,10 @@ target/
 # Direnv tool
 .envrc
 
+# Local development data
+data/
+pgsql/
+
 # Logs
 logs/
 
