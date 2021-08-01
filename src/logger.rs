@@ -10,12 +10,12 @@ const LOG_FILE_DEFAULT: &str = "logs/server-dev.log";
 /// Initialize the global `Logger` instance using environment variables
 pub fn setup_logger(level: &str, file_out: &str) -> Result<(), InitError> {
     // TODO: Cleanup this logic; increase readability
-    let log_level = std::env::var(level)
+    let log_level = env::var(level)
         .unwrap_or_else(|_| LOG_LEVEL_DEFAULT.into())
         .parse()
         .unwrap_or(LevelFilter::Info);
 
-    let log_file = std::env::var(file_out).unwrap_or_else(|_| LOG_FILE_DEFAULT.into());
+    let log_file = env::var(file_out).unwrap_or_else(|_| LOG_FILE_DEFAULT.into());
     let file_logger = File::create(log_file)?;
 
     let dispatch = Dispatch::new()
