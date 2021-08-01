@@ -4,15 +4,21 @@ use std::fs::File;
 use fern::{Dispatch, InitError};
 use log::LevelFilter;
 
-/// Initialize the global `Logger` instance
-pub fn init() -> Result<(), InitError> {
-    // Get the default log level from the environment; else set to `DEBUG`
-    let log_level = env::var("LOG_LEVEL").unwrap_or_else(|_| "DEBUG".into());
-    let log_level = log_level
-        .parse::<LevelFilter>()
+const LOG_LEVEL_DEFAULT: &str = "DEBUG";
+const LOG_FILE_DEFAULT: &str = "logs/server-dev.log";
+
+/// Initialize the global `Logger` instance using environment variables
+pub fn setup_logger(level: &str, file_out: &str) -> Result<(), InitError> {
+    // TODO: Cleanup this logic; increase readability
+    let log_level = std::env::var(level)
+        .unwrap_or_else(|_| LOG_LEVEL_DEFAULT.into())
+        .parse()
         .unwrap_or(LevelFilter::Info);
 
-    let mut dispatch = Dispatch::new()
+    let log_file = std::env::var(file_out).unwrap_or_else(|_| LOG_FILE_DEFAULT.into());
+    let file_logger = File::create(log_file)?;
+
+    let dispatch = Dispatch::new()
         .format(|out, message, record| {
             out.finish(format_args!(
                 "[{}] [{}] [{}] {}",
@@ -23,13 +29,8 @@ pub fn init() -> Result<(), InitError> {
             ))
         })
         .level(log_level)
-        .chain(std::io::stderr());
-
-    // Enable logging to file if a log file is provided
-    if let Ok(log_file) = env::var("LOG_FILE") {
-        let log_file = File::create(log_file)?;
-        dispatch = dispatch.chain(log_file);
-    }
+        .chain(std::io::stderr())
+        .chain(file_logger);
 
     // Build this logger and instantiate it as the global `log` logger
     dispatch.apply()?;

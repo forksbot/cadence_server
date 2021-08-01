@@ -10,7 +10,7 @@ fn main() -> Result<(), AppError> {
     // Load environment variables from '.env'
     dotenv::dotenv()?;
     // Initialize custom logger
-    logger::init()?;
+    logger::setup_logger("LOG_LEVEL", "LOG_FILE")?;
 
     Ok(())
 }
