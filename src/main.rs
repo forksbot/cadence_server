@@ -2,6 +2,7 @@
 extern crate log;
 
 mod logger;
+mod models;
 
 // Convenience type for error trait object
 type AppError = Box<dyn std::error::Error>;
