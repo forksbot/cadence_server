@@ -1,42 +1,48 @@
-use chrono::DateTime;
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
-use uuid::Uuid;
 
-/// `Workspace` represents a database record
-#[derive(Clone, Debug, Deserialize, Serialize)]
+/// `Board` model (database record)
+#[derive(Clone, Debug, Deserialize, Serialize, sqlx::FromRow)]
 #[serde(rename_all = "camelCase")]
-pub struct Workspace {
-    pub id: Uuid,
-    pub name: String,
-    pub created_at: DateTime<chrono::Utc>,
+pub struct User {
+    pub id: i64,
+    pub username: String,
+    pub email: String,
+    pub password: String,
+    pub created_at: DateTime<Utc>,
 }
 
-/// `Task` represents a database record
-#[derive(Clone, Debug, Deserialize, Serialize)]
+/// `Board` model (database record)
+#[derive(Clone, Debug, Deserialize, Serialize, sqlx::FromRow)]
 #[serde(rename_all = "camelCase")]
-pub struct Task {
-    pub id: Uuid,
-    pub workspace_id: Uuid,
+pub struct Board {
+    pub id: i64,
+    pub user_id: i64,
+    pub title: String,
     pub description: String,
-    pub status: Status,
-    pub created_at: DateTime<chrono::Utc>,
+    pub created_at: DateTime<Utc>,
 }
 
-/// `Status` is used to track the current state of a `Task`
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum Status {
-    Pending,
-    Doing,
-    Complete,
+/// The `List` model represents a list, or column, on a `Board`.
+/// The `List` is responsible for holding `Ticket` structures.
+#[derive(Clone, Debug, Deserialize, Serialize, sqlx::FromRow)]
+#[serde(rename_all = "camelCase")]
+pub struct List {
+    pub id: i64,
+    pub list_id: i64,
+    pub description: String,
+    pub created_at: DateTime<Utc>,
+    pub updated_at: DateTime<Utc>,
 }
 
-// TODO: Flesh out how `ProgressReport` is going to work.
-//  The general idea is to assist with retrieving the current state of a
-//  user's tasks across all workspaces.
-
-#[derive(Clone, Debug, Serialize)]
-pub struct ProgressReport {
-    pub pending: i64,
-    pub doing: i64,
-    pub complete: i64,
+/// A `Ticket` is a database entity that holds the data pertaining
+/// to a particular 'task', 'issue' or 'job'.
+#[derive(Clone, Debug, Deserialize, Serialize, sqlx::FromRow)]
+#[serde(rename_all = "camelCase")]
+pub struct Ticket {
+    pub id: i64,
+    pub list_id: i64,
+    pub description: String,
+    pub created_at: DateTime<Utc>,
+    pub updated_at: DateTime<Utc>,
 }
