@@ -1,7 +1,7 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
-/// `Board` model (database record)
+/// `User` is a user of the application.
 #[derive(Clone, Debug, Deserialize, Serialize, sqlx::FromRow)]
 #[serde(rename_all = "camelCase")]
 pub struct User {
@@ -12,7 +12,7 @@ pub struct User {
     pub created_at: DateTime<Utc>,
 }
 
-/// `Board` model (database record)
+/// `Board` is the current workspace for a `User`.
 #[derive(Clone, Debug, Deserialize, Serialize, sqlx::FromRow)]
 #[serde(rename_all = "camelCase")]
 pub struct Board {
@@ -23,8 +23,7 @@ pub struct Board {
     pub created_at: DateTime<Utc>,
 }
 
-/// The `List` model represents a list, or column, on a `Board`.
-/// The `List` is responsible for holding `Ticket` structures.
+/// `List` is a container for `Ticket` structures.
 #[derive(Clone, Debug, Deserialize, Serialize, sqlx::FromRow)]
 #[serde(rename_all = "camelCase")]
 pub struct List {
@@ -35,8 +34,7 @@ pub struct List {
     pub updated_at: DateTime<Utc>,
 }
 
-/// A `Ticket` is a database entity that holds the data pertaining
-/// to a particular 'task', 'issue' or 'job'.
+/// `Ticket` holds data pertaining to a "task", "issue", "job", etc.
 #[derive(Clone, Debug, Deserialize, Serialize, sqlx::FromRow)]
 #[serde(rename_all = "camelCase")]
 pub struct Ticket {

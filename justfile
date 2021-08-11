@@ -1,3 +1,5 @@
+set dotenv-load := true
+
 ## Development
 # Start the server
 dev-start:
