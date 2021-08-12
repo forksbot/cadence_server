@@ -1,4 +1,4 @@
--- Define PostgreSQL function to set updated_at field to `now()`
+-- Define PostgreSQL function to automatically set updated_at field to `now()`
 CREATE OR REPLACE FUNCTION trigger_set_timestamp()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -7,7 +7,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Create the "tickets" table
+-- Create "tickets" table
 CREATE TABLE tickets (
     id BIGSERIAL PRIMARY KEY,
     list_id BIGINT NOT NULL,

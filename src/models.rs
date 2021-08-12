@@ -29,7 +29,7 @@ pub struct Board {
 pub struct List {
     pub id: i64,
     pub list_id: i64,
-    pub description: String,
+    pub title: String,
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
 }

@@ -22,6 +22,7 @@ target/
 # Local development data
 data/
 pgsql/
+seed-db.sql
 
 # Logs
 logs/
