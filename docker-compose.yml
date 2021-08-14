@@ -3,7 +3,7 @@ version: "3.9"
 services:
   # PostgreSQL service (database)
   postgres:
-    image: "postgres:13"
+    image: "postgres:13.4"
     command: postgres -c config_file=/etc/postgresql/postgresql.conf
     container_name: "timesync-postgres"
     environment:
