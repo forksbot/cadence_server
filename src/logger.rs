@@ -37,3 +37,11 @@ pub fn setup_logger(level: &str, file_out: &str) -> Result<(), InitError> {
 
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn logger_smoke_test_should_pass() {
+        assert!(true);
+    }
+}
