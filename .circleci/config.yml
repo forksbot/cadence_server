@@ -22,7 +22,7 @@ jobs:
           command: cargo build
       - save_cache:
           paths:
-            - /usr/local/cargo/registry
+            - /home/circleci/.cargo/registry
             - target/debug/.fingerprint
             - target/debug/build
             - target/debug/deps
@@ -42,7 +42,7 @@ jobs:
       - run:
           name: Cache permission
           command: |
-            sudo chown -R $(whoami):$(id -ng) /usr/local/cargo
+            sudo chown -R $(whoami):$(id -ng) /home/circleci/.cargo
       - restore_cache:
           keys:
             - v1-cargo-audit-{{ arch }}
@@ -51,7 +51,7 @@ jobs:
           command: cargo install cargo-audit
       - save_cache:
           paths:
-            - /usr/local/cargo
+            - /home/circleci/.cargo
           key: v1-cargo-audit-{{ arch }}
       - run:
           name: Check for known security issues in dependencies
