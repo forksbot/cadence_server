@@ -47,6 +47,9 @@ jobs:
           keys:
             - v1-cargo-audit-{{ arch }}
       - run:
+          name: Update APT package registry
+          command: sudo apt update && sudo apt install libssl-dev -yq
+      - run:
           name: Install dependency auditing tool
           command: cargo install cargo-audit
       - save_cache:
