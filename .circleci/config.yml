@@ -1,9 +1,7 @@
-# CircleCI pipeline process engine.
-# Reference: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
 jobs:
-  build:
+  build-and-test:
     docker:
       - image: cimg/rust:1.54.0
     environment:
@@ -40,7 +38,7 @@ jobs:
           name: Version information
           command: rustc --version; cargo --version; rustup --version
       - run:
-          name: Cache permission
+          name: Set cache permissions
           command: |
             sudo chown -R $(whoami):$(id -ng) /home/circleci/.cargo
       - restore_cache:
@@ -50,14 +48,14 @@ jobs:
           name: Update APT package registry
           command: sudo apt update && sudo apt install libssl-dev -yq
       - run:
-          name: Install dependency auditing tool
+          name: Install cargo-audit
           command: cargo install cargo-audit
       - save_cache:
           paths:
             - /home/circleci/.cargo
           key: v1-cargo-audit-{{ arch }}
       - run:
-          name: Check for known security issues in dependencies
+          name: Audit Cargo.lock for crates with security vulnerabilities
           command: cargo audit
 
   format:
@@ -102,23 +100,33 @@ workflows:
   version: 2
   build-test:
     jobs:
-      - build:
+      - build-and-test:
           filters:
-            tags:
-              only: /.*/
+            branches:
+              only:
+                - /^main/
+                - /^release.*/
       - security:
           filters:
-            tags:
-              only: /.*/
+            branches:
+              only:
+                - /^main/
+                - /^release.*/
       - format:
           filters:
-            tags:
-              only: /.*/
+            branches:
+              only:
+                - /^main/
+                - /^release.*/
       - lint:
           filters:
-            tags:
-              only: /.*/
+            branches:
+              only:
+                - /^main/
+                - /^release.*/
       - coverage:
           filters:
-            tags:
-              only: /.*/
+            branches:
+              only:
+                - /^main/
+                - /^release.*/
