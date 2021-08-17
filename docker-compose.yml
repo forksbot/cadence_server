@@ -5,7 +5,7 @@ services:
   postgres:
     image: "postgres:13.4"
     command: postgres -c config_file=/etc/postgresql/postgresql.conf
-    container_name: "timesync-postgres"
+    container_name: "cadence-postgres"
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}

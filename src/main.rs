@@ -11,7 +11,7 @@ async fn main() -> std::io::Result<()> {
     // Initialize logger
     env::set_var(
         "RUST_LOG",
-        "actix_web=debug,actix_server=info,timesync_server=info",
+        "actix_web=debug,actix_server=info,cadence_server=info",
     );
     env_logger::init();
 

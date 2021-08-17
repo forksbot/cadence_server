@@ -354,6 +354,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "cadence_server"
+version = "0.1.0"
+dependencies = [
+ "actix-http",
+ "actix-web",
+ "chrono",
+ "env_logger",
+ "log",
+ "serde",
+ "serde_json",
+ "sqlx",
+ "uuid",
+]
+
+[[package]]
 name = "cc"
 version = "1.0.69"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1736,21 +1751,6 @@ dependencies = [
  "quote",
  "standback",
  "syn",
-]
-
-[[package]]
-name = "timesync_server"
-version = "0.1.0"
-dependencies = [
- "actix-http",
- "actix-web",
- "chrono",
- "env_logger",
- "log",
- "serde",
- "serde_json",
- "sqlx",
- "uuid",
 ]
 
 [[package]]

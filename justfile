@@ -25,11 +25,11 @@ inspect:
 ## Docker services
 # Connect to PostgreSQL via `psql`
 db-connect:
-    docker exec -it timesync-postgres psql -U $POSTGRES_USER -d timesync
+    docker exec -it cadence-postgres psql -U $POSTGRES_USER -d cadence
 
 # Spawn an interactive bash session inside of the database service
 db-shell:
-    docker exec -it timesync-postgres bash
+    docker exec -it cadence-postgres bash
 
 ## SQLx database commands
 # Create database specified in DATABASE_URL
