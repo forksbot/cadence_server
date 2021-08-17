@@ -9,6 +9,19 @@ dev-start:
 dev-watch:
     cargo watch -x run
 
+## Quality assurance
+# Checks for inconsistencies, warnings and errors in the codebase
+inspect:
+    @echo "Checking the repository for:"
+    @echo "Formatting issues (rustfmt)"
+    cargo fmt --all -- --check
+    @echo "Linting violations (clippy)"
+    cargo clippy -- -D warnings
+    @echo "Failing tests (cargo test)"
+    cargo test
+    @echo "Dependency vulnerabilities in Cargo.lock file (cargo-audit)"
+    cargo audit
+
 ## Docker services
 # Connect to PostgreSQL via `psql`
 db-connect:
